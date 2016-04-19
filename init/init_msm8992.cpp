@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2013, The Linux Foundation. All rights reserved.
+   Copyright (c) 2014, The Linux Foundation. All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -39,7 +39,6 @@
 void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *board_type)
 {
     char platform[PROP_VALUE_MAX];
-    char baseband[PROP_VALUE_MAX];
     int rc;
 
     UNUSED(msm_id);
@@ -49,21 +48,5 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     if (!rc || !ISMATCH(platform, ANDROID_TARGET))
         return;
 
-    if (ISMATCH(board_type, "Liquid")) {
-        property_set(PROP_LCDDENSITY, "160");
-        /* Liquid do not have hardware navigation keys, so enable
-           Android sw navigation bar
-         */
-        property_set(PROP_QEMU_NAVKEY, "0");
-    }
-    else if (ISMATCH(board_type, "Dragon"))
-        property_set(PROP_LCDDENSITY, "240");
-    else {
-        property_set(PROP_LCDDENSITY, "320");
-    }
-
-    rc = property_get(PROP_BOOT_BASEBAND, baseband);
-    if ((rc != NULL) && ISMATCH(baseband, "apq")) {
-        property_set(PROP_BLUETOOTH_SOC, "ath3k");
-    }
+    property_set(PROP_LCDDENSITY, "480");
 }

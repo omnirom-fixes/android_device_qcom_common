@@ -41,41 +41,13 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     char platform[PROP_VALUE_MAX];
     int rc;
 
+    UNUSED(msm_id);
+    UNUSED(msm_ver);
+    UNUSED(board_type);
+
     rc = property_get("ro.board.platform", platform);
     if (!rc || !ISMATCH(platform, ANDROID_TARGET))
         return;
 
-    if (ISMATCH(board_type, "Liquid")) {
-        if (msm_ver == 196608) {
-            property_set(PROP_HWROTATE, "90");
-        }
-        property_set(PROP_LCDDENSITY, "160");
-    }
-    else if (ISMATCH(board_type, "MTP"))
-        property_set(PROP_LCDDENSITY, "240");
-    else {
-        if (msm_id == 109)
-            property_set(PROP_LCDDENSITY, "160");
-        else
-            property_set(PROP_LCDDENSITY, "240");
-    }
-
-    /* Populate system properties */
-    switch (msm_id) {
-        case 87:
-            /* 8960 */
-            property_set("debug.composition.type", "dyn");
-            break;
-        case 138:
-        case 153:
-        case 154:
-        case 155:
-        case 156:
-        case 157:
-            /* 8064 V2 PRIME | 8930AB | 8630AB | 8230AB | 8030AB | 8960AB */
-            property_set("debug.composition.type", "c2d");
-            break;
-        default:
-            ; /* do nothing */
-    }
+    property_set(PROP_LCDDENSITY, "320");
 }

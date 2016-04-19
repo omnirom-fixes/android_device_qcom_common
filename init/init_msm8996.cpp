@@ -27,18 +27,25 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __INIT_MSM__H__
-#define __INIT_MSM__H__
+#include <stdlib.h>
 
-#include <sys/system_properties.h>
+#include "vendor_init.h"
+#include "property_service.h"
+#include "log.h"
+#include "util.h"
 
-#define PROP_HWROTATE    "ro.sf.hwrotation"
-#define PROP_LCDDENSITY  "ro.sf.lcd_density"
-#define PROP_QEMU_NAVKEY "qemu.hw.mainkeys"
+#include "init_msm.h"
 
-#define UNUSED(a)       ((void)(a))
-#define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
+void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *board_type)
+{
+    char platform[PROP_VALUE_MAX];
+    int rc;
 
-void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *board_type);
+    UNUSED(msm_id);
+    UNUSED(msm_ver);
+    UNUSED(board_type);
 
-#endif /* __INIT_MSM__H__ */
+    rc = property_get("ro.board.platform", platform);
+    if (!rc || !ISMATCH(platform, ANDROID_TARGET))
+        return;
+}
